@@ -1,7 +1,8 @@
+package org.DariaRyabinina;
 
+import com.codeborne.selenide.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.DariaRyabinina.LoginPage;
-import org.DariaRyabinina.ReviewPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,30 +17,27 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$;
 
-public class less22 {
+
+public class less22_1 {
+
     private WebDriver webDriver;
-    public static final Logger LOGG = LoggerFactory.getLogger(less22.class);
+    public static final Logger LOGG = LoggerFactory.getLogger(less22_1.class);
 
     @BeforeClass
     public void downloadDriverManager() {
         WebDriverManager.chromedriver().setup();
     }
 
-    @BeforeMethod
-    public void initDriver() {
-        webDriver = new ChromeDriver();
-    }
-
-    @AfterMethod
-    public void closeDriver() {
-        webDriver.close();
-    }
-
     @Test
     public void Test1() {
-        webDriver.get("https://idemo.bspb.ru/");
-        webDriver.manage().window().maximize();
+
+        Selenide.open("https://idemo.bspb.ru/");
+
+       // webDriver.get("https://idemo.bspb.ru/");
+       // webDriver.manage().window().maximize();
 
         LoginPage loginPage = new LoginPage(webDriver);
         loginPage
@@ -56,9 +54,10 @@ public class less22 {
         String nameReview1 = reviewPage.nameReview.getText();
         nameReview1 = nameReview1.replaceAll("[^(а-яёА-ЯЁ)]", "");
         Assert.assertEquals(nameReview1, "Обзор");
-        Assert.assertEquals(reviewPage.financialfreedom.getText(), "Финансовая свобода");
+        $(reviewPage.financialfreedom).shouldHave(text("Финансовая свобода"))  ;
+        //Assert.assertEquals(reviewPage.financialfreedom.getText(), "Финансовая свобода");
 
-        webDriverWait.until(ExpectedConditions.visibilityOf(reviewPage.webColumnMoney));
+      //  webDriverWait.until(ExpectedConditions.visibilityOf(reviewPage.webColumnMoney));
 
 
         String sumMoney = reviewPage.webColumnMoney.getText().trim();
@@ -69,14 +68,18 @@ public class less22 {
         Actions action = new Actions(webDriver);
         action.moveToElement(reviewPage.webColumnMoney).build().perform();
 
-        webDriverWait.until(ExpectedConditions.visibilityOf(reviewPage.webColumnMyMoney));
+      //  webDriverWait.until(ExpectedConditions.visibilityOf(reviewPage.webColumnMyMoney));
 
+        String myMoney=$(By.xpath("//small[@class='my-assets']")).getText();
+        String mySumMoney=myMoney;
 
-        String myMoney = reviewPage.webColumnMyMoney.getText();
+      //  String myMoney = reviewPage.webColumnMyMoney.getText();
         myMoney = myMoney.replaceAll("[^(а-яёА-ЯЁ), ]", "").trim();
         LOGG.info(myMoney);
         Assert.assertEquals(myMoney, "Моих средств");
-        String mySumMoney = reviewPage.webColumnMyMoney.getText().replaceAll("Моих средств", "").trim();
+        mySumMoney=$(mySumMoney).getText().replaceAll("Моих средств", "").trim();
+
+       // String mySumMoney = reviewPage.webColumnMyMoney.getText().replaceAll("Моих средств", "").trim();
         LOGG.info(mySumMoney);
         mach = mySumMoney.matches("\\d{0,3}\\s\\d{0,3}\\s\\d{0,3}\\.\\d{2}\\s.");
         Assert.assertTrue(mach);
