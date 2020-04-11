@@ -1,5 +1,7 @@
 package org.DariaRyabinina;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 import org.slf4j.Logger;
@@ -20,6 +22,7 @@ public class less22_1 {
     @BeforeMethod
     public void initDriver() {
         open("https://idemo.bspb.ru/");
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
     }
 
     @Test
