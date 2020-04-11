@@ -1,31 +1,23 @@
 package org.DariaRyabinina;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import com.codeborne.selenide.SelenideElement;
+
+import static com.codeborne.selenide.Selectors.byId;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class CodePage {
-    private WebDriver webDriver;
-    PageFactory pageFactory;
-    @FindBy(id = "otp-code")
-    WebElement addCode;
-    @FindBy(id = "login-otp-button")
-    WebElement enterButtonCode;
+    SelenideElement addCode = $(byId("otp-code"));
 
-    public CodePage(WebDriver webDriver) {
-        this.webDriver = webDriver;
-        PageFactory.initElements(webDriver, this);
-
-    }
+    SelenideElement enterButtonCode = $(byId("login-otp-button"));
 
     public CodePage enterCode(String code) {
-        addCode.sendKeys(code);
+        addCode.sendKeys("0000");
         return this;
     }
 
     public TabMenu clickEntrButton() {
         enterButtonCode.click();
-        return new TabMenu(webDriver);
+        return new TabMenu(getWebDriver());
     }
 }
