@@ -23,18 +23,11 @@ public class Less25Steps {
     }
 
 
-    @Дано("входит на поле Логин очищает и вставляет Логин")
-    public void входит_на_поле_Логин_очищает_и_вставляет_Логин() {
+    @Дано("Входит на поле очищает и вставляет Логин/Пароль {string}")
+    public void входит_на_поле_Логин_очищает_и_вставляет_Логин(String value) {
         SelenideElement loginFiled = $(byName("username"));
         loginFiled.clear();
-        loginFiled.setValue("demo");
-    }
-
-    @Дано("входит на поле Пароль очищает и вставляет Пароль")
-    public void входит_на_поле_Пароль_очищает_и_вставляет_Пароль() {
-        SelenideElement passFiled = $(byName("password"));
-        passFiled.clear();
-        passFiled.setValue("demo");
+        loginFiled.setValue(value);
     }
 
     @Когда("нажимает кнопку Войти")
