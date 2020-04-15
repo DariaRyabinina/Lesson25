@@ -15,7 +15,7 @@
         <testng.version>7.1.0</testng.version>
         <webdrivermanager.version>3.8.1</webdrivermanager.version>
         <selenium-java.version>3.141.59</selenium-java.version>
-        <slf4j-log4j12.version>1.7.30</slf4j-log4j12.version>
+<!--        <slf4j-log4j12.version>1.7.30</slf4j-log4j12.version>-->
         <browsermob-core.version>2.1.5</browsermob-core.version>
         <aspectj.version>1.8.10</aspectj.version>
     </properties>
@@ -28,6 +28,17 @@
             <version>5.10.0</version>
         </dependency>
         <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>5.5.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>5.5.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
@@ -38,21 +49,27 @@
             <artifactId>webdrivermanager</artifactId>
             <version>${webdrivermanager.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j-log4j12.version}</version>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.slf4j</groupId>-->
+        <!--            <artifactId>slf4j-log4j12</artifactId>-->
+        <!--            <version>${slf4j-log4j12.version}</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-testng</artifactId>
             <version>RELEASE</version>
             <scope>test</scope>
+
         </dependency>
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-selenide</artifactId>
             <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber5-jvm</artifactId>
+            <version>2.13.2</version>
         </dependency>
     </dependencies>
     <build>
@@ -63,6 +80,8 @@
                 <version>2.20</version>
                 <configuration>
                     <argLine>
+                        javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                        -Dcucumber.options="--plugin io.qameta.allure.cucumber5jvm.AllureCucumber5JvmJvm"
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
                 </configuration>
