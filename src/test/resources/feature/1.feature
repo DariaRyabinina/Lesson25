@@ -1,5 +1,6 @@
 # language: ru
-
+@allTest
+@less25
 Функционал: Работа на bspb
 
   Сценарий: Вход на bspb
