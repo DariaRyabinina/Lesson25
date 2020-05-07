@@ -19,7 +19,7 @@ public class LoginPage {
     public SelenideElement enterButtonLogin = $(byId("login-button"));
 
     @Step("Вход в систему {login} / {password}")
-    public CodePage login(String login, String password) {
+    protected CodePage login(String login, String password) {
         loginFiled.clear();
         loginFiled.setValue(login);
         passFiled.clear();
@@ -30,7 +30,7 @@ public class LoginPage {
     }
 
     @Step
-    public void test() {
+    protected void test() {
         loginFiled.clear();
         loginFiled.setValue("demo");
         passFiled.clear();

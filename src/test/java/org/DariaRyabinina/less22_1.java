@@ -18,6 +18,7 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class less22_1 {
     public static final Logger LOGG = LoggerFactory.getLogger(less22_1.class);
+    private static final String formatManey = "\\d{0,3}\\s\\d{0,3}\\s\\d{0,3}\\.\\d{2}\\s.";
 
     @BeforeMethod
     public void initDriver() {
@@ -26,7 +27,7 @@ public class less22_1 {
     }
 
     @Test
-    public void Test1() {
+    public void Test1SpbBank() {
 
         LoginPage loginPage = new LoginPage();
         loginPage
@@ -38,13 +39,13 @@ public class less22_1 {
         ReviewPage reviewPage = new ReviewPage();
         String nameReview1 = reviewPage.nameReview.getText();
         nameReview1 = nameReview1.replaceAll("[^(а-яёА-ЯЁ)]", "");
-        Assert.assertEquals(nameReview1, "Обзор");
+        Assert.assertEquals(nameReview1, "Обзор", "Название вкладки не \"Обзор\"");
         $(reviewPage.financialfreedom).shouldHave(text("Финансовая свобода"));
 
         String sumMoney = reviewPage.webColumnMoney.getText().trim();
-        LOGG.info(sumMoney);
-        boolean mach = sumMoney.matches("\\d{0,3}\\s\\d{0,3}\\s\\d{0,3}\\.\\d{2}\\s.");
-        Assert.assertTrue(mach);
+        LOGG.info("Сумма равна " + sumMoney);
+        boolean mach = sumMoney.matches(formatManey);
+        Assert.assertTrue(mach, "Формат не соответствует");
 
         Actions action = new Actions(getWebDriver());
         action.moveToElement(reviewPage.webColumnMoney).build().perform();
@@ -55,14 +56,14 @@ public class less22_1 {
 
 
         myMoney = myMoney.replaceAll("[^(а-яёА-ЯЁ), ]", "").trim();
-        LOGG.info(myMoney);
-        Assert.assertEquals(myMoney, "Моих средств");
+        LOGG.info("Сумма моих средств " + myMoney);
+        Assert.assertEquals(myMoney, "Моих средств", "Название поля не \"Моих средств\"");
         mySumMoney = mySumMoney.replaceAll("Моих средств", "").trim();
 
 
-        LOGG.info(mySumMoney);
-        mach = mySumMoney.matches("\\d{0,3}\\s\\d{0,3}\\s\\d{0,3}\\.\\d{2}\\s.");
-        Assert.assertTrue(mach);
+        LOGG.info("Моих средств " + mySumMoney);
+        mach = mySumMoney.matches(formatManey);
+        Assert.assertTrue(mach, "Формат не соответствует");
     }
 
     @Test
